@@ -54,26 +54,31 @@ class GUI():
         self.build_quit_frame()
 
     def build_rx_frame(self):
+        self.rx_labels = {}
+        self.rx_param = {}
+        self.rx_params = {}
+        self.rx_dict = {}
         self.rx_port = tk.IntVar()
-        self.rx_port.set("7200")
+        self.rx_port.set("")
         self.rx_port_label = tk.Label(self.rx,text="Receive port:" )
         self.rx_port_label.grid(row=0, column=0)#pack(side='left')
         self.rx_port_label['font'] = font.Font(weight='bold')
         self.rx_port_field = tk.Entry(self.rx,
                                       textvariable=self.rx_port)
         self.rx_port_field.grid(row=0, column=1)#.pack(side='right')
+        self.rx_button = tk.Button(self.rx, text="Start Listening",
+                                command=self.start_listening)
+        self.rx_button.grid(column=3, row=0)
         self.rx_msg = tk.StringVar()
         self.rx_msg.set('')
-        reactor.listenUDP(int(self.rx_port.get()), RX(self.rx_msg))
-
         self.msg_lbl = tk.Label(self.rx, textvariable=self.rx_msg, width=75)
         self.msg_lbl.grid(row=1, column=0, columnspan=2)#.pack(side='bottom')
-        self.rx_labels = {}
-        self.rx_param = {}
-        self.rx_params = {}
-        self.rx_dict = {}
         self.init_msg()
         self.rx_msg.trace('w', self.parse_msg)
+
+    def start_listening(self):
+        self.rx_button.destroy()
+        self.listen()
 
     def init_msg(self, *args):
         self.rx_dict = self.load_rx_dict()
