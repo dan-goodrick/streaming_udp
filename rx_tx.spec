@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['rx_tx.py'],
-             pathex=['/Users/dan/streaming_udp/streaming_udp'],
+             pathex=['/home/ec2-user/streaming_udp'],
              binaries=[],
              datas=[],
              hiddenimports=[],
